@@ -9,6 +9,12 @@ namespace QuarterControl.Models.DB
 {
     public class QuarterControlDBContext : DbContext 
     {
+        public QuarterControlDBContext(DbContextOptions<QuarterControlDBContext> options)
+           : base(options)
+        {
+
+        }
+
         public DbSet<AngusInspect> AngusInspects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
