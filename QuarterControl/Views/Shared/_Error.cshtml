@@ -3,11 +3,13 @@
     <br />
     <br />
     <div class="row">
-        <img src="~/images/Error.png" alt="Error" />
+        <img class="img-responsive" src="~/images/Error.png" alt="Error" />
     </div>
     <div class="row">
-        <h1>No fue posible realizar la acción</h1>
-        <h3>Error: @ViewBag.Error</h3>
+        <h3 class="text-center">No fue posible realizar la acción</h3>
+        <h3 class="text-center">@ViewBag.Error</h3>
     </div>
-        
+    <br />
+    <br />
+    <a asp-action="index"><span class="glyphicon glyphicon-arrow-left"></span> Volver</a>
 </div>

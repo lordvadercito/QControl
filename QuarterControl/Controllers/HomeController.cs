@@ -38,7 +38,7 @@ namespace QuarterControl.Controllers
                 repository = repository.GetInformation(codbar)
             };
 
-           
+            repositoryGarron.Codbar = codbar;
             repositoryGarron.networkStatus = netstat.NetworkUp();
 
             return View(repositoryGarron);
@@ -58,19 +58,33 @@ namespace QuarterControl.Controllers
                 garron.MarmoreoApto = false;
             }
 
-                      
-            _context.AngusInspects.Add(garron);
+            var queryCodbar = from garronCodbar in _context.AngusInspects
+                              where garronCodbar.GarronID == garronId
+                              select garronId;
+
             int state = 0;
             string error = null;
-            try
+
+            if (queryCodbar.Count() == 0)
             {
-               state = _context.SaveChanges();
+                _context.AngusInspects.Add(garron);
+               
+                try
+                {
+                    state = _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+
+                }
             }
-            catch(Exception ex)
+            else
             {
-                error = ex.Message;
-                
+                error = "El codbar ya fue procesado";
             }
+
+            
 
             ViewBag.State = state;
             ViewBag.Error = error;
