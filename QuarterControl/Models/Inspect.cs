@@ -9,7 +9,7 @@ namespace QuarterControl.Models
 {
     public abstract class Inspect : Entity
     {
-        int GarronID { get; set; }
+        public int GarronID { get; set; }
 
         public abstract bool Aprueba();
     }

@@ -4,34 +4,67 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using QuarterControl.Controllers.Helpers;
 using QuarterControl.Models;
+using QuarterControl.Models.DB;
 
 namespace QuarterControl.Controllers
 {
     public class HomeController : Controller
     {
+        public NetworkStatus netstat = new NetworkStatus();
+
+        private readonly QuarterControlDBContext _context;
+
+        public HomeController(QuarterControlDBContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            DisplayInitial displayInitial = new DisplayInitial();
+            
+            displayInitial.networkStatus = netstat.NetworkUp();
+            return View(displayInitial);
         }
 
-        public IActionResult About()
+        //Busca el garrón en función del codbar ingresado
+        public ActionResult SearchCodbar(string codbar)
         {
-            ViewData["Message"] = "Your application description page.";
+            RepositoryControllers repository = new RepositoryControllers(_context);
+            DisplayInitial repositoryGarron = new DisplayInitial
+            {
+                repository = repository.GetInformation(codbar)
+            };
 
-            return View();
+           
+            repositoryGarron.networkStatus = netstat.NetworkUp();
+
+            return View(repositoryGarron);
         }
 
-        public IActionResult Contact()
+        //TODO: Terminar de implementar este método
+        public ActionResult SaveMarmoreo(int garronId, bool marmoreoApto)
         {
-            ViewData["Message"] = "Your contact page.";
+            AngusInspect garron = new AngusInspect();
+            garron.GarronID = garronId;
+            garron.MarmoreoApto = marmoreoApto;
+            _context.AngusInspects.Add(garron);
+            try
+            {
+                _context.SaveChanges();
+                return PartialView();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View();
+            }
+            
+            
 
-            return View();
         }
 
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
