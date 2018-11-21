@@ -44,23 +44,37 @@ namespace QuarterControl.Controllers
             return View(repositoryGarron);
         }
 
-        //TODO: Terminar de implementar este método
-        public ActionResult SaveMarmoreo(int garronId, bool marmoreoApto)
+        //Guarda el valor del marmoreo
+        public ActionResult SaveMarmoreo(int garronId, string marmoreoApto)
         {
             AngusInspect garron = new AngusInspect();
             garron.GarronID = garronId;
-            garron.MarmoreoApto = marmoreoApto;
+            if (marmoreoApto.Equals("Apto"))
+            {
+                garron.MarmoreoApto = true;
+            }
+            else
+            {
+                garron.MarmoreoApto = false;
+            }
+
+                      
             _context.AngusInspects.Add(garron);
+            int state = 0;
+            string error = null;
             try
             {
-                _context.SaveChanges();
-                return PartialView();
+               state = _context.SaveChanges();
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return View();
+                error = ex.Message;
+                
             }
+
+            ViewBag.State = state;
+            ViewBag.Error = error;
+            return View();
             
             
 
