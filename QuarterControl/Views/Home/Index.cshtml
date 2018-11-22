@@ -9,14 +9,18 @@
     <div class="row">
         <form asp-action="SearchCodbar">
             <div class="form-group-lg">
-                <label  class="control-label text-center col-xs-12">
+                <label class="control-label text-center col-xs-12">
                     Codbar
                 </label>
                 <br />
-                <input  class="form-control" asp-for="Codbar" />
+                <input class="form-control" asp-for="Codbar" autofocus autocomplete="off"/>
+                <span asp-validation-for="Codbar" class="col-xs-12 text-danger text-center"></span>
             </div>
         </form>
-            @Html.Partial("_NetworkStatus", Model);
+        @Html.Partial("_NetworkStatus", Model);
     </div>
-    
+
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
