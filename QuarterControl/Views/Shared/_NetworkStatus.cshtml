@@ -1,27 +1,7 @@
-﻿@model DisplayInitial;
-
+﻿@model DisplayInitial
 <br />
 <br />
 <hr />
 <div class="row">
-    @if (Model.networkStatus)
-    {
-        <h5 class="text-center">
-            <font color="green"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;CONECTADO</font>
-        </h5>
-    }
-    else
-    {
-        <h5 class="text-center">
-            <font color="red"><span class="glyphicon glyphicon-remove-circle"></span>&nbsp;NO CONECTADO</font>
-        </h5>
-    }
-
+    <h5 class="text-center" id="netStatus"></h5>
 </div>
-@*<script>
-    function reloadPage() {
-        location.reload();
-        Console.log("Partial View refresh")
-        }
-        setInterval('reloadPage()',10000)
-</script>*@
