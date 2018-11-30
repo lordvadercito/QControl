@@ -41,24 +41,36 @@ namespace QuarterControl.Controllers
             {
                 repository = repository.GetInformation(codbar)
             };
+            int state = 0;
+            string error;
 
-            bool queryCodbar = _context.AngusInspects.Any(x => x.GarronID == repositoryGarron.repository.GarronId);
-
-
-            if (!queryCodbar)
+            if(repositoryGarron.repository.GarronId == 0)
             {
-                repositoryGarron.Codbar = codbar;
-                repositoryGarron.networkStatus = netstat.NetworkUp();
-
-                return View(repositoryGarron);
+                error = "El garron no fue encontrado";
+                return RedirectToAction("ResultOperation", new { state, errorMessage = error });
             }
             else
             {
-                int state = 0;
-                string error = "El codbar ya fue procesado";
+                bool queryCodbar = _context.AngusInspects.Any(x => x.GarronID == repositoryGarron.repository.GarronId);
 
-                return RedirectToAction("ResultOperation", new { state, errorMessage = error});
+
+                if (!queryCodbar)
+                {
+                    repositoryGarron.Codbar = codbar;
+                    repositoryGarron.networkStatus = netstat.NetworkUp();
+
+                    return View(repositoryGarron);
+                }
+                else
+                {
+                    error = "El codbar ya fue procesado";
+
+                    return RedirectToAction("ResultOperation", new { state, errorMessage = error });
+                }
+
+
             }
+
 
         }
 
