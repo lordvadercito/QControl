@@ -7,7 +7,7 @@
 
 function netStatusCheck() {    
     var data = 0;
-    var url = "./Home/NetworkCheck";
+    var url = "../../Home/NetworkCheck";
     $.ajax({
         url: url,
         type: "POST",
