@@ -140,5 +140,14 @@ namespace QuarterControl.Controllers
             
         }
 
+        /// <summary>
+        /// Comprueba conectividad de la red, se llama mediante AJAX
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult NetworkCheck()
+        {            
+            return new JsonResult(((netstat.NetworkUp()) ? "OK" : "FAIL"));
+        }
     }
 }

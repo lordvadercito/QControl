@@ -17,10 +17,11 @@
                 <span asp-validation-for="Codbar" class="col-xs-12 text-danger text-center"></span>
             </div>
         </form>
-        @Html.Partial("_NetworkStatus", Model);
+        @Html.Partial("_NetworkStatus", Model)
     </div>
 
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/NetworkStatusCheck.js"></script>
 }
