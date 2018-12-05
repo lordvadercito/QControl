@@ -1,55 +1,73 @@
 package com.devesa.quartercontrol;
 
-import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebSettings;
+import android.view.KeyEvent;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.webkit.WebViewClient;
+
 
 public class MainActivity extends AppCompatActivity {
+    WebView mWebView;
 
-    protected WebView appContent;
-    protected ProgressBar progressBar;
-    String url = "http://10.1.100.26:8094/";
+    SwipeRefreshLayout swipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appContent = (WebView) findViewById(R.id.main_webView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                LoadWeb();
+            }
+        });
+
+        LoadWeb();
 
     }
 
-    protected class LoadDataTask extends AsyncTask<String, Integerer, String>{
-        @Override
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setMax(100);
-            progressBar.setProgress(0);
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            progressBar.setVisibility(View.INVISIBLE);
-        }
 
-        @Override
-        protected void onProgressUpdate(integer... values) {
-            super.onProgressUpdate(values);
-        }
+    public void LoadWeb() {
+        mWebView = (WebView) findViewById(R.id.webView);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        //TODO: Este metodo permite la validacion por Windows Authentication
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedHttpAuthRequest(WebView view,HttpAuthHandler handler, String host, String realm) {
+                handler.proceed("AZULNATURAL\\ADucca", "alex2016");
+            }
+        });
+        //TODO: Aqui va la URL que se quiere nativificar
+        mWebView.loadUrl("http://10.1.100.26:8094/");
+        swipe.setRefreshing(true);
+        mWebView.setWebViewClient(new WebViewClient() {
 
-        @Override
-        protected String doInBackground(String... strings) {
-            WebSettings webSettings = appContent.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            appContent.loadUrl(strings[0]);
+            public void onReveivedError(WebView view, int errorCode, String description, String failingUrl) {
+                mWebView.loadUrl("file://android_asset/error.html");
+            }
 
-            return null;
+            public void onPageFinished(WebView view, String url) {
+                //Oculta el refresh gif cuando termina la carga de la pagina
+                swipe.setRefreshing(false);
+            }
+
+        });
+
+    }
+
+    @Override
+    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 }
