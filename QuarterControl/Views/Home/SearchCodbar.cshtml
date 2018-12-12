@@ -27,8 +27,8 @@
         <br />
         <form>
             <input asp-action="SaveMarmoreo" type="hidden" name="garronID" value="@Model.repository.GarronId" />
-            <input asp-action="SaveMarmoreo" class="btn btn-success submit-btn" type="submit" name="marmoreoApto" value="Apto" />
-            <input asp-action="SaveMarmoreo" class="btn btn-danger submit-btn" type="submit" name="marmoreoApto" value="No Apto" />
+            <input asp-action="SaveMarmoreo" class="btn btn-success submit-btn" style="width: 49%;min-height:60px;" type="submit" name="marmoreoApto" value="Apto" />
+            <input asp-action="SaveMarmoreo" class="btn btn-danger submit-btn" style="width: 49%;min-height:60px;" type="submit" name="marmoreoApto" value="No Apto" />
         </form>
     </div>
     @Html.Partial("_NetworkStatus", Model);
