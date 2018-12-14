@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuarterControl.Controllers.Helpers;
 using QuarterControl.Models;
@@ -34,6 +31,7 @@ namespace QuarterControl.Controllers
         /// </summary>
         /// <param name="codbar">Código de barras del garrón pickeado</param>
         /// <returns>Redirige a la vista apropiada</returns>
+        
         public ActionResult SearchCodbar(string codbar)
         {
             RepositoryControllers repository = new RepositoryControllers(_context);
@@ -80,6 +78,8 @@ namespace QuarterControl.Controllers
         /// <param name="garronId">Int ID del garrón en la base PalcoDevesaTest</param>
         /// <param name="marmoreoApto">String Valor del marmoreo (Apto o No apto)</param>
         /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SaveMarmoreo(int garronId, string marmoreoApto)
         {
             AngusInspect garron = new AngusInspect();

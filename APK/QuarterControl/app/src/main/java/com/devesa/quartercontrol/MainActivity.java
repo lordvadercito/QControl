@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public void LoadWeb() {
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(false);
         //TODO: Este metodo permite la validacion por Windows Authentication
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
@@ -63,11 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed(){
+       
     }
+
+
 }
