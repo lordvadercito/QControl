@@ -54,19 +54,28 @@ namespace QuarterControl.Controllers
 
                 if (!queryCodbar)
                 {
-                    repositoryGarron.Codbar = codbar;
-                    repositoryGarron.networkStatus = netstat.NetworkUp();
+                    if(repositoryGarron.repository.Fenotipo == "Angus")
+                    {
+                        repositoryGarron.Codbar = codbar;
+                        repositoryGarron.networkStatus = netstat.NetworkUp();
 
-                    return View(repositoryGarron);
+                        return View(repositoryGarron);
+                    }
+                    else
+                    {
+                        error = "El garrón no posee el fenotipo 'Angus'";
+                    }
+
+                    
                 }
                 else
                 {
                     error = "El codbar ya fue procesado";
 
-                    return RedirectToAction("ResultOperation", new { state, errorMessage = error });
+                   
                 }
 
-
+                return RedirectToAction("ResultOperation", new { state, errorMessage = error });
             }
 
 

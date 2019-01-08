@@ -50,6 +50,7 @@ namespace QuarterControl.Controllers.Helpers
 
                     rep.GarronId = (int)rdr["GarronId"];
                     rep.GarronNro = (int)rdr["GarronNro"];
+                    rep.Fenotipo = (string)rdr["Fenotipo"];
                     rep.TropaId = (int)rdr["TropaId"];
                     rep.TropaNro = (int)rdr["TropaNro"];
                     rep.Calificacion = (string)rdr["Calificacion"];
